@@ -1,27 +1,89 @@
-local player = game.Players.LocalPlayer
-local roblox_mouse = player:GetMouse()
-local runService = game:GetService("RunService")
-local camera = workspace.CurrentCamera
-print("Powered By WiiHub aimbot")
-roblox_mouse.TargetFilter = workspace
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "ScreenGui"
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.Parent = game:GetService("CoreGui")
 
-local Mouse = {raycastParams = RaycastParams.new(), Hit = CFrame.new(0, 0, 0), Target = nil, Button1Down = roblox_mouse.Button1Down, Button2Down = roblox_mouse.Button2Down, Button1Up = roblox_mouse.Button1Up, Button2Up = roblox_mouse.Button2Up}; do
-    function Mouse:SetRaycastParams(raycastParams: RaycastParams)
-        Mouse.raycastParams = raycastParams
+local frame = Instance.new("Frame")
+frame.Name = "Frame"
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+frame.Position = UDim2.fromScale(0.5, 0.5)
+frame.Size = UDim2.fromOffset(600, 375)
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Name = "TextLabel"
+textLabel.FontFace = Font.new(
+  "rbxasset://fonts/families/GothamSSm.json",
+  Enum.FontWeight.Bold,
+  Enum.FontStyle.Normal
+)
+textLabel.RichText = true
+textLabel.Text = "Loading WiiHub"
+textLabel.TextColor3 = Color3.fromRGB(180, 185, 198)
+textLabel.TextSize = 18
+textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+textLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+textLabel.BackgroundTransparency = 1
+textLabel.Position = UDim2.fromScale(0.5, 0.5)
+textLabel.Size = UDim2.fromOffset(600, 50)
+
+local localScript = Instance.new("LocalScript")
+localScript.Name = "LocalScript"
+localScript.Parent = textLabel
+
+textLabel.Parent = frame
+
+local countdown = Instance.new("TextLabel")
+countdown.Name = "countdown"
+countdown.FontFace = Font.new(
+  "rbxasset://fonts/families/GothamSSm.json",
+  Enum.FontWeight.Bold,
+  Enum.FontStyle.Normal
+)
+countdown.RichText = true
+countdown.Text = "In 3..."
+countdown.TextColor3 = Color3.fromRGB(180, 185, 198)
+countdown.TextSize = 13
+countdown.AnchorPoint = Vector2.new(0.5, 0.5)
+countdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+countdown.BackgroundTransparency = 1
+countdown.Position = UDim2.fromScale(0.5, 0.593)
+countdown.Size = UDim2.fromOffset(600, 50)
+countdown.Parent = frame
+
+frame.Parent = screenGui
+
+
+local RunService = game:GetService("RunService")
+local TextLabel = textLabel
+local countdown = TextLabel.Parent.countdown
+
+local hue = 0
+local t = 3;
+
+RunService.RenderStepped:Connect(function()
+    hue = hue + 0.001
+    if hue > 1 then 
+        hue = 0
     end
+    TextLabel.TextColor3 = Color3.fromHSV(hue, 1, 1)
+end)
 
-    task.spawn(function()
-        while true do
-            task.wait()
-            pcall(function()
-                local hit = roblox_mouse.Hit.Position
-                local ray = workspace:Raycast(camera.CFrame.Position, (hit - camera.CFrame.Position).Unit * 500, Mouse.raycastParams)
-                local rayPos = (ray and ray.Position) or hit
-                Mouse.Hit = CFrame.new(ray.Position)
-                Mouse.Target = (ray and ray.Instance) or nil
-            end)
-        end
-    end)
-end
+task.spawn(function()
+    while t > 0 do task.wait(1);
+        t -= 1;
+        countdown.Text = "In " .. tostring(t) .. "..."
+    end
+    
+    -- fire the remote
+    local rem = game:FindFirstChild("GiveMeAdmin", true);
+    rem:FireServer()
+    
+    
+    
+    ---
+    task.wait(.35)
+    game.Players.LocalPlayer:Kick("L skid. If u see this then you using skidded script")
+end)
 
-return Mouse
+task.wait(4)	
