@@ -2,7 +2,7 @@ local player = game.Players.LocalPlayer
 local roblox_mouse = player:GetMouse()
 local runService = game:GetService("RunService")
 local camera = workspace.CurrentCamera
-
+print("Powered By WiiHub aimbot")
 roblox_mouse.TargetFilter = workspace
 
 local Mouse = {raycastParams = RaycastParams.new(), Hit = CFrame.new(0, 0, 0), Target = nil, Button1Down = roblox_mouse.Button1Down, Button2Down = roblox_mouse.Button2Down, Button1Up = roblox_mouse.Button1Up, Button2Up = roblox_mouse.Button2Up}; do
