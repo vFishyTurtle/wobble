@@ -83,7 +83,7 @@ task.spawn(function()
     
     ---
     task.wait(.35)
-    game.Players.LocalPlayer:Kick("L skid. If u see this then you using skidded script")
+    game.Players.LocalPlayer:Kick("Nice try! This script belongs to vFishy")
 end)
 
 task.wait(4)	
